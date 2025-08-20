@@ -1,0 +1,27 @@
+/* :root {
+    
+} */
+
+body {
+    background-color: #181818;
+}
+
+#grid-container {
+    display: grid;
+}
+
+.cell {
+    background-color: rgb(6, 73, 6);
+    color: rgb(255, 255, 255);
+    border: 1px black solid;
+    user-select: none;
+
+    /* vertical center alignment */
+    align-content: center;
+
+    /* horizontal center alignment */
+    text-align: center;
+
+    font-size: smaller;
+}
+
