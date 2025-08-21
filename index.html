@@ -7,7 +7,26 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="grid-container"></div>
+    <div id="size-controls-container">
+        <label for="cells-across-input">Cells Across:</label>
+        <input type="number" id="cells-across-input" min="1" step="1">
+        <label for="cells-down-input">Cells Down:</label>
+        <input type="number" id="cells-down-input" min="1" step="1">
+    </div>
+    <div id="controls-container">
+        <div class="state-input-group">
+            <label for="across-input">Across State:</label>
+            <input type="number" id="across-input" min="0" step="1">
+        </div>
+        <div class="state-input-group">
+            <label for="down-input">Down State:</label>
+            <input type="number" id="down-input" min="0" step="1">
+        </div>
+    </div>
+    <div id="grid-outer">
+        <div id="grid-container"></div>
+    </div>
+    <div id="state-signifier"></div>
     <script type="module" src="main.js"></script>
 </body>
 </html>
