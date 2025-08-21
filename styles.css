@@ -1,3 +1,7 @@
+/* :root {
+    
+} */
+  
 #state-signifier {
     margin-top: 1.5em;
     text-align: center;
@@ -32,9 +36,6 @@
     outline: none;
     margin-right: 1em;
 }
-/* :root {
-    
-} */
 
 
 body {
@@ -96,11 +97,12 @@ body {
     margin: 0 auto;
     box-shadow: 0 0 16px #000a;
     border-radius: 8px;
-    background: #222;
+    background: #550707;
 }
 
 .cell {
     user-select: none;
+    border-radius: 10px;
 
     /* vertical center alignment */
     align-content: center;
@@ -115,10 +117,10 @@ body {
 
 /* Alive and dead cell coloring */
 .cell.alive {
-    background-color: #a02a1f !important; /* bright green for alive */
+    background-color: #ffffff !important; /* bright green for alive */
 }
 .cell:not(.alive) {
-    background-color: #aea6eb !important; /* dark gray for dead */
+    background-color: #550707 !important; /* dark gray for dead */
 }
 
 /* Wall pseudo-elements removed; alive/dead contrast now signifies walls */

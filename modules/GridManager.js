@@ -12,9 +12,6 @@ export class GridManager {
   init() {
     this.gridContainer = document.getElementById("grid-container");
     this.createGrid();
-    console.log(`across: ${CONFIG.ACROSS_STATE}`);
-    console.log(`down: ${CONFIG.DOWN_STATE}`);
-    console.log(this.wallsMap);
   }
 
   isWallActive(cellIndex, side) {

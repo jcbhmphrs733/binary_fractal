@@ -1,5 +1,5 @@
 export const CONFIG = (() => {
-  const CELLSIZE = 10;
+  const CELLSIZE = 15;
   let CELLSACROSS = 15;
   let CELLSDOWN = 15;
 

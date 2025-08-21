@@ -98,8 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set initial values for cell count inputs
     cellsAcrossInput.value = CONFIG.CELLSACROSS;
     cellsDownInput.value = CONFIG.CELLSDOWN;
-    cellsAcrossInput.min = 1;
-    cellsDownInput.min = 1;
+    cellsAcrossInput.min = 0;
+    cellsDownInput.min = 0;
 
     function updateStateInputs() {
         // Always reflect the actual state in CONFIG
