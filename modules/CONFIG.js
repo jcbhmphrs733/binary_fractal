@@ -9,8 +9,8 @@ export const CONFIG = (() => {
 
   // Numeric control additions
   let useNumericControl = false;
-  let acrossStateNumber = 0;
-  let downStateNumber = 0;
+  let acrossStateNumber = 0n;
+  let downStateNumber = 0n;
 
   return {
     CELLSIZE,
@@ -37,10 +37,11 @@ export const CONFIG = (() => {
       useNumericControl = enabled;
     },
     setAcrossStateNumber(num) {
-      acrossStateNumber = num;
+      // Accept both Number and BigInt
+      acrossStateNumber = typeof num === 'bigint' ? num : BigInt(num);
     },
     setDownStateNumber(num) {
-      downStateNumber = num;
+      downStateNumber = typeof num === 'bigint' ? num : BigInt(num);
     },
     get acrossStateNumber() {
       return acrossStateNumber;
@@ -51,7 +52,7 @@ export const CONFIG = (() => {
 
     get ACROSS_STATE() {
       if (useNumericControl) {
-        // Convert number to binary array, pad to CELLSACROSS
+        // Convert BigInt to binary array, pad to CELLSACROSS
         let bin = acrossStateNumber.toString(2).padStart(CELLSACROSS, '0');
         return Array.from(bin).map(Number);
       } else {

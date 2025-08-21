@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Set numeric state to match initial random state before enabling numeric control
-    const initialAcross = parseInt(CONFIG.ACROSS_STATE.join(''), 2);
-    const initialDown = parseInt(CONFIG.DOWN_STATE.join(''), 2);
+    const initialAcross = BigInt('0b' + CONFIG.ACROSS_STATE.join(''));
+    const initialDown = BigInt('0b' + CONFIG.DOWN_STATE.join(''));
     CONFIG.setAcrossStateNumber(initialAcross);
     CONFIG.setDownStateNumber(initialDown);
     CONFIG.setNumericControl(true);
@@ -48,10 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Animation: auto-increment both across and down state numbers
     let interval = 1000; // ms
-    let across = 0;
-    let down = 0;
-    let maxAcross = Math.pow(2, CONFIG.CELLSACROSS) - 1;
-    let maxDown = Math.pow(2, CONFIG.CELLSDOWN) - 1;
+    let across = 0n;
+    let down = 0n;
+    let maxAcross = (1n << BigInt(CONFIG.CELLSACROSS)) - 1n;
+    let maxDown = (1n << BigInt(CONFIG.CELLSDOWN)) - 1n;
 
     // Remove old setInterval (animation now controlled by animId)
 
@@ -69,9 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function startAnim() {
         if (animId) return;
         animId = setInterval(() => {
-            // Increment across and down, wrap if needed
-            let nextAcross = (CONFIG.acrossStateNumber + 1) > maxAcross ? 0 : CONFIG.acrossStateNumber + 1;
-            let nextDown = (CONFIG.downStateNumber + 1) > maxDown ? 0 : CONFIG.downStateNumber + 1;
+            // Increment across and down, wrap if needed (BigInt)
+            let nextAcross = (CONFIG.acrossStateNumber + 1n) > maxAcross ? 0n : CONFIG.acrossStateNumber + 1n;
+            let nextDown = (CONFIG.downStateNumber + 1n) > maxDown ? 0n : CONFIG.downStateNumber + 1n;
             CONFIG.setAcrossStateNumber(nextAcross);
             CONFIG.setDownStateNumber(nextDown);
             window.binaryFractal.reinitGrid();
@@ -107,12 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
             across = CONFIG.acrossStateNumber;
             down = CONFIG.downStateNumber;
         } else {
-            // Convert binary array to number
-            across = parseInt(CONFIG.ACROSS_STATE.join(''), 2);
-            down = parseInt(CONFIG.DOWN_STATE.join(''), 2);
+            across = BigInt('0b' + CONFIG.ACROSS_STATE.join(''));
+            down = BigInt('0b' + CONFIG.DOWN_STATE.join(''));
         }
-        acrossInput.value = across;
-        downInput.value = down;
+        acrossInput.value = across.toString();
+        downInput.value = down.toString();
         acrossInput.min = 0;
         downInput.min = 0;
         acrossInput.max = maxAcross;
@@ -128,27 +127,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // Always reflect the true state in the input fields after grid/state initialization
     function syncInputsToState() {
-        acrossInput.value = parseInt(CONFIG.ACROSS_STATE.join(''), 2);
-        downInput.value = parseInt(CONFIG.DOWN_STATE.join(''), 2);
+    acrossInput.value = BigInt('0b' + CONFIG.ACROSS_STATE.join('')).toString();
+    downInput.value = BigInt('0b' + CONFIG.DOWN_STATE.join('')).toString();
     }
     // Call after DOMContentLoaded and after any grid/state change
     syncInputsToState();
 
     acrossInput.addEventListener('input', (e) => {
-    let val = Math.max(0, Math.min(maxAcross, parseInt(e.target.value) || 0));
-    // If the value was previously forced to zero, allow user to increment from there
-    CONFIG.setAcrossStateNumber(val);
+    let val = e.target.value;
+    let bigVal = BigInt(val || '0');
+    if (bigVal > maxAcross) bigVal = 0n;
+    if (bigVal < 0n) bigVal = 0n;
+    CONFIG.setAcrossStateNumber(bigVal);
     across = CONFIG.acrossStateNumber;
-    acrossInput.value = across;
+    acrossInput.value = across.toString();
     window.binaryFractal.reinitGrid();
     updateStateInputs();
     });
     downInput.addEventListener('input', (e) => {
-        const val = Math.max(0, Math.min(maxDown, parseInt(e.target.value) || 0));
-        down = val;
-        CONFIG.setDownStateNumber(down);
-        window.binaryFractal.reinitGrid();
-        updateStateInputs();
+    let val = e.target.value;
+    let bigVal = BigInt(val || '0');
+    if (bigVal > maxDown) bigVal = 0n;
+    if (bigVal < 0n) bigVal = 0n;
+    CONFIG.setDownStateNumber(bigVal);
+    down = CONFIG.downStateNumber;
+    downInput.value = down.toString();
+    window.binaryFractal.reinitGrid();
+    updateStateInputs();
     });
 
     // Cell count input controls
@@ -170,8 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Preserve current state value and pad with zeros if needed
     let prevAcross = CONFIG.acrossStateNumber;
     let prevDown = CONFIG.downStateNumber;
-    let maxAcrossNew = Math.pow(2, val) - 1;
-    let newAcross = prevAcross > maxAcrossNew ? 0 : prevAcross;
+    let maxAcrossNew = (1n << BigInt(val)) - 1n;
+    let newAcross = prevAcross > maxAcrossNew ? 0n : prevAcross;
     CONFIG.setGridSize(val, CONFIG.CELLSDOWN);
     CONFIG.setAcrossStateNumber(newAcross);
     CONFIG.setDownStateNumber(prevDown);
@@ -185,8 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Preserve current state value and pad with zeros if needed
     let prevAcross = CONFIG.acrossStateNumber;
     let prevDown = CONFIG.downStateNumber;
-    let maxDownNew = Math.pow(2, val) - 1;
-    let newDown = prevDown > maxDownNew ? 0 : prevDown;
+    let maxDownNew = (1n << BigInt(val)) - 1n;
+    let newDown = prevDown > maxDownNew ? 0n : prevDown;
     CONFIG.setGridSize(CONFIG.CELLSACROSS, val);
     CONFIG.setAcrossStateNumber(prevAcross);
     CONFIG.setDownStateNumber(newDown);

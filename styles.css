@@ -57,8 +57,18 @@ body {
     color: #ccc;
 }
 
-#controls-container label {
-    margin-right: 0.3em;
+#controls-container input[type="number"] {
+    min-width: 18em;
+    width: auto;
+    text-align: left;
+    padding: 0.2em 0.5em;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background: #222;
+    color: #eee;
+    font-size: 1em;
+    outline: none;
+    margin-right: 1em;
 }
 
 #controls-container input[type="number"] {
