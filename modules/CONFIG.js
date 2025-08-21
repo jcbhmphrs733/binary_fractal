@@ -1,7 +1,7 @@
 export const CONFIG = (() => {
-  const CELLSIZE = 60;
-  const CELLSACROSS = 5;
-  const CELLSDOWN = 5;
+  const CELLSIZE = 8;
+  const CELLSACROSS = 100;
+  const CELLSDOWN = 100;
 
   let acrossState = null;
   let downState = null;

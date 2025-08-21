@@ -13,7 +13,7 @@ body {
 .cell {
     background-color: rgb(6, 73, 6);
     color: rgb(255, 255, 255);
-    border: 1px black solid;
+    /* border: 1px black solid; */
     user-select: none;
 
     /* vertical center alignment */
@@ -23,5 +23,17 @@ body {
     text-align: center;
 
     font-size: smaller;
+    position: relative;
+    box-sizing: border-box;
 }
+
+/* Alive and dead cell coloring */
+.cell.alive {
+    background-color: #898080 !important; /* bright green for alive */
+}
+.cell:not(.alive) {
+    background-color: #353232 !important; /* dark gray for dead */
+}
+
+/* Wall pseudo-elements removed; alive/dead contrast now signifies walls */
 
